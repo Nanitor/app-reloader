@@ -1,3 +1,3 @@
-module github.com/ahall/app-reloader
+module github.com/nanitor/app-reloader
 
 go 1.15
