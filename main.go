@@ -130,9 +130,13 @@ func main() {
 
 			err = runBin(bin, args)
 			// https://github.com/golang/go/issues/22220
-			if err != nil && nbusy < 3 && strings.Contains(err.Error(), "text file busy") {
+			if err != nil && nbusy < 100 && strings.Contains(err.Error(), "text file busy") {
 				log.Println("Text file busy - retry in a bit")
-				time.Sleep(100 * time.Millisecond << uint(nbusy))
+				twait := 10 * time.Second
+				if nbusy < 7 {
+					twait = 100 * time.Millisecond << uint(nbusy)
+				}
+				time.Sleep(twait)
 				nbusy++
 				continue
 			}
